@@ -2,7 +2,6 @@
 
 #include "Node.h"
 
-
 enum MALStatus
 {
 	MAL_ON_BOARD,
@@ -23,7 +22,6 @@ public:
 	double vy;
 	double ax;
 	double ay;
-
 };
 
 class Mal:public Phys

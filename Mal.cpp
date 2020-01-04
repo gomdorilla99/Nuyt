@@ -6,7 +6,7 @@
 
 Node* Mal::kickoff(Node* pNode)
 {
-	Node* LastMoveNode = nullptr;
+	//Node* LastMoveNode = nullptr;
 
 	if (pNode == mpMalLocation)
 	{
@@ -117,15 +117,10 @@ Phys* Mal::getPhyical()
 		ay *= 0.9;
 		vx *= 0.5;
 		vy *= 0.5;
-
-
 	}
-
 	vx *= 0.9;
 	vy *= 0.9;
-
 	x += vx;
 	y += vy;
-
 	return (Phys*)this;
 }
