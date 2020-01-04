@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Mal.h"
 #include "Player.h"
 #include <math.h>
@@ -23,7 +24,6 @@ int Mal::GetPlayerID()
 	return mpPlayer->GetPlayerID();
 }
 
-#if 0
 void Mal::Draw(CDC *pDC)
 {
 	POINT Point1 = mpMalLocation->getLocation();
@@ -57,13 +57,12 @@ void Mal::Draw(CDC *pDC)
 	}
 	else
 	{
-		mpPlayer->GetMessage().Format(_T("P%d 慨嬢!!"), mpPlayer->GetPlayerID());
+		mpPlayer->GetMessage().Format(_T("P%d ³´¾î!!"), mpPlayer->GetPlayerID());
 		pDC->TextOutW(Point1.x, Point1.y, mpPlayer->GetMessage());
 	}
 
 	pDC->SelectObject(pFont);
 }
-#endif 
 
 Phys* Mal::getPhyical()
 {
@@ -93,7 +92,7 @@ Phys* Mal::getPhyical()
 			mpDestNode = mpMalLocation;
 			if (mpDestNode->getType() != NODE_TYPE_OUT && mpDestNode->getType() != NODE_TYPE_READY)
 			{
-				if (!mpDestNode->CheckIn(this))	
+				if (!mpDestNode->CheckIn(this))
 				{
 					Mal* pMal;
 					pMal = mpDestNode->GetCheckedMal();
@@ -103,7 +102,7 @@ Phys* Mal::getPhyical()
 						pMal->vx = vx;
 						pMal->vy = vy;
 						mpPlayer->SetDeferedCount(1);
-						//mpPlayer->SetMessage("죽었네.");
+						mpPlayer->SetMessage(_T("Àâ°í ÇÑ¹ø´õ"));
 					}
 					//pMal->setMalStatus(MAL_READYTOGO);
 				}

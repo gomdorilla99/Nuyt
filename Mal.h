@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Node.h"
 
 enum MALStatus
@@ -31,6 +30,8 @@ class Mal:public Phys
 	enum MALStatus mStatus;
 	Session* mpSession;
 
+	CFont bigFont;
+
 public:
 	Node* mpMalLocation;
 	Node* mpDestNode;
@@ -44,6 +45,7 @@ public:
 		mpSession = pGame;
 		mpPlayer = pPlayer;
 		setMalStatus(MAL_READYTOGO);
+		bigFont.CreatePointFont(300, _T("±Ã¼­"));
 		isDouble = false;
 		isTriple = false;
 		mpMalLocation = nullptr;
@@ -86,6 +88,7 @@ public:
 	}
 	Node* kickoff(Node* pNode);
 	int GetPlayerID();
-//	void Draw(CDC* pDC);
+	void Draw(CDC* pDC);
+	void DrawTarget(CDC* pDC);
 	Phys* getPhyical();
 };

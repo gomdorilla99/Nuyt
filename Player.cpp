@@ -1,7 +1,8 @@
+#include "pch.h"
 #include "Player.h"
 #include "Session.h"
-#include <stdlib.h>
-#include <string.h>
+
+
 
 
 Node* Player::checkout(Node* pNode)
@@ -25,6 +26,36 @@ Node* Player::checkout(Node* pNode)
 		return LastMoveNode;
 	}
 }
+
+void Player::Draw(CDC* pDC)
+{
+	CBrush* pOldBrush;
+	pOldBrush = pDC->SelectObject(&mPlayerBrush);
+
+	if (theMalCountOnTheBoard > 0)
+	{
+		pDC->SetBkMode(TRANSPARENT);
+		// Ask Register or Go
+		list<Mal*>::iterator  iter = mMalList.begin();
+		while (iter != mMalList.end())
+		{
+			if ((*iter)->mpMalLocation && (*iter)->getMalStatus()==MAL_ON_BOARD)
+			{
+				(*iter)->Draw(pDC);
+				
+			}
+			else if ((*iter)->mpMalLocation && (*iter)->getMalStatus() == MAL_READYTOGO)
+			{
+
+			}
+
+			iter++;
+		}
+	}
+	pDC->SelectObject(pOldBrush);
+
+}
+
 
 Node* Player::run(int Count, int MalID)
 {
@@ -86,18 +117,13 @@ Node* Player::run(int Count, int MalID)
 					//(*iter)->mpBackNode = (*iter)->mpMalLocation;
 					//(*iter)->mpDestNode = pCurrentNode;
 				}
-				
-				
-
-
-				
 				LastMoveNode = (*iter)->mpMalLocation;
 			}
 			iter++;
 		}
 		
-		char *NyutStr[7] = { "Back do","Nack", "DO", "Ge", "girl", "luyt", "mo" };
-		//printf(DebugMessage, "%s", NyutStr[Count + 1]);
+		CString NyutStr[7] = { _T("»ªµµ"), _T("³«"), _T("µµ"), _T("°³"), _T("°É"), _T("À·, ÇÑ¹ø´õ"), _T("¸ð, ÇÑ¹ø´õ") };
+		DebugMessage.Format(_T("%s"), NyutStr[Count + 1]);
 		return LastMoveNode;
 	}
 		

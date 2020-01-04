@@ -1,12 +1,12 @@
+#include "pch.h"
 #include "Session.h"
 #include "math.h"
-#include "time.h"
 
 #define Rad(d) (d * 2 * 3.141592 / 360)
 
 void Session::InitalizeNuytPlat()
 {
-	Node *pNode;
+	Node* pNode;
 	int offset_x = 700;
 	int offset_y = 700;
 	int radial = 600;
@@ -110,10 +110,10 @@ int Session::GetNyutNumber()
 	switch (number)
 	{
 	case 0:
-		number = 5; //Mo
+		number = 5;    //Mo
 		break;
 	case 1:
-		number = 4; //Lyut
+		number = 4;    //Lyut
 		break;
 	case 2:
 		number = -1;
@@ -121,13 +121,13 @@ int Session::GetNyutNumber()
 	case 3:
 	case 4:
 	case 5:
-		number = 1; //Do
+		number = 1;    //Do
 		break;
 	case 6:
 	case 7:
 	case 8:
 	case 9:
-		number = 3; //Gual
+		number = 3;    //Gual
 		break;
 	case 10:
 	case 11:
@@ -135,7 +135,7 @@ int Session::GetNyutNumber()
 	case 13:
 	case 14:
 	case 15:
-		number = 2; //鯵
+		number = 2;    //°³
 		break;
 	default:
 		number = 0;
@@ -159,7 +159,7 @@ void Session::Run()
 		{
 			if (Player1.GetDeferedCount() > 0)
 			{
-				/*廃腰希*/
+				/*ÇÑ¹ø´õ*/
 				Player1.CheckOutDeferedCount();
 			}
 			else
@@ -171,7 +171,7 @@ void Session::Run()
 		{
 			if (Player2.GetDeferedCount() > 0)
 			{
-				/*廃腰希*/
+				/*ÇÑ¹ø´õ*/
 				Player2.CheckOutDeferedCount();
 			}
 			else
@@ -184,7 +184,7 @@ void Session::Run()
 			if (Player3.GetDeferedCount() > 0)
 			{
 				Player3.CheckOutDeferedCount();
-				/*廃腰希*/
+				/*ÇÑ¹ø´õ*/
 			}
 			else
 			{

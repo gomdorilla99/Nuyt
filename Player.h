@@ -1,6 +1,5 @@
 #pragma once
 #include <list>
-#include <string.h>
 #include "Mal.h"
 
 constexpr auto MAX_NUM_MAL = 3;
@@ -14,7 +13,9 @@ class Player
 	Session *mpSession;
 	int mPlayerID;
 	list<Mal*> mMalList;
-	char DebugMessage[256];
+	CBrush mPlayerBrush;
+	CString	DebugMessage;
+	CFont bigFont;
 	int mDeferedCount;
 	int theMalCountOnTheBoard;
 	int mSuccessCount;
@@ -26,14 +27,13 @@ public:
 	}
 	void ClearMessage()
 	{
-		strcpy(DebugMessage ,"");
+		DebugMessage = _T("");
 	}
-	void SetMessage(char *msg)
+	void SetMessage(CString msg)
 	{
-		strcpy(DebugMessage, msg);
+		DebugMessage = msg;
 	}
-
-	char *GetMessage()
+	CString& GetMessage()
 	{
 		return 	DebugMessage;
 	}
@@ -55,16 +55,15 @@ public:
 		return mDeferedCount;
 	}
 
-#if 0
 	CBrush* GetBrush()
 	{
 		return &mPlayerBrush;
 	}
-#endif
 	Player(Session *Game, int playerID) {
 		mpSession = Game;
 		mPlayerID = playerID;
 		theMalCountOnTheBoard = 0;
+		bigFont.CreatePointFont(300, _T("¡¾A¨ù¡©"));
 		mDeferedCount = 0;
 		mSuccessCount = 0;
 	}
@@ -72,6 +71,9 @@ public:
 	{
 		mMalList.clear();
 	}
+
+	void Draw(CDC* pDC);
+
 
 	Node *run(int Count, int MalID);
 	Node* checkout(Node *pNode);
