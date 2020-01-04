@@ -1,7 +1,7 @@
-#include "pch.h"
 #include "Mal.h"
 #include "Player.h"
-#include "Game.h"
+#include <math.h>
+#include "Session.h"
 
 
 Node* Mal::kickoff(Node* pNode)
@@ -11,8 +11,8 @@ Node* Mal::kickoff(Node* pNode)
 	if (pNode == mpMalLocation)
 	{
 		pNode->CheckOut(this);
-		mpDestNode = mpGame->getReadyNode();
-		mpMalLocation = mpGame->getReadyNode();
+		mpDestNode = mpSession->getReadyNode();
+		mpMalLocation = mpSession->getReadyNode();
 	}
 	return mpMalLocation;
 
@@ -23,6 +23,7 @@ int Mal::GetPlayerID()
 	return mpPlayer->GetPlayerID();
 }
 
+#if 0
 void Mal::Draw(CDC *pDC)
 {
 	POINT Point1 = mpMalLocation->getLocation();
@@ -56,12 +57,13 @@ void Mal::Draw(CDC *pDC)
 	}
 	else
 	{
-		mpPlayer->GetMessage().Format(_T("P%d ³´¾î!!"), mpPlayer->GetPlayerID());
+		mpPlayer->GetMessage().Format(_T("P%d æ…¨å¬¢!!"), mpPlayer->GetPlayerID());
 		pDC->TextOutW(Point1.x, Point1.y, mpPlayer->GetMessage());
 	}
 
 	pDC->SelectObject(pFont);
 }
+#endif 
 
 Phys* Mal::getPhyical()
 {
@@ -91,7 +93,7 @@ Phys* Mal::getPhyical()
 			mpDestNode = mpMalLocation;
 			if (mpDestNode->getType() != NODE_TYPE_OUT && mpDestNode->getType() != NODE_TYPE_READY)
 			{
-				if (!mpDestNode->CheckIn(this))
+				if (!mpDestNode->CheckIn(this))	
 				{
 					Mal* pMal;
 					pMal = mpDestNode->GetCheckedMal();
@@ -101,7 +103,7 @@ Phys* Mal::getPhyical()
 						pMal->vx = vx;
 						pMal->vy = vy;
 						mpPlayer->SetDeferedCount(1);
-						mpPlayer->SetMessage(_T("Àâ°í ÇÑ¹ø´õ"));
+						//mpPlayer->SetMessage("ì£½ì—ˆë„¤.");
 					}
 					//pMal->setMalStatus(MAL_READYTOGO);
 				}

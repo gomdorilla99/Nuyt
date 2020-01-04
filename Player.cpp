@@ -1,45 +1,38 @@
-#include "pch.h"
 #include "Player.h"
-#include "Game.h"
+#include "Session.h"
+#include <stdlib.h>
+#include <string.h>
 
 
-void Player::Draw(CDC* pDC)
+Node* Player::checkout(Node* pNode)
 {
-	CBrush* pOldBrush;
-	pOldBrush = pDC->SelectObject(&mPlayerBrush);
-
+	Node* LastMoveNode = nullptr;
 	if (theMalCountOnTheBoard > 0)
 	{
-		pDC->SetBkMode(TRANSPARENT);
 		// Ask Register or Go
 		list<Mal*>::iterator  iter = mMalList.begin();
 		while (iter != mMalList.end())
 		{
-			if ((*iter)->mpMalLocation && (*iter)->getMalStatus()==MAL_ON_BOARD)
+			if(pNode == (*iter)->mpMalLocation)
 			{
-				(*iter)->Draw(pDC);
-				
+				(*iter)->mpStartNode = (*iter)->mpMalLocation;
+				LastMoveNode = (*iter)->mpMalLocation;
+				(*iter)->mpDestNode = mpSession->getReadyNode();
+				(*iter)->mpMalLocation = mpSession->getReadyNode();
 			}
-			else if ((*iter)->mpMalLocation && (*iter)->getMalStatus() == MAL_READYTOGO)
-			{
-
-			}
-
 			iter++;
 		}
+		return LastMoveNode;
 	}
-	pDC->SelectObject(pOldBrush);
-
 }
-
 
 Node* Player::run(int Count, int MalID)
 {
 	Node* LastMoveNode = nullptr;
 	if (theMalCountOnTheBoard == 0)
 	{
-		Mal* pNewMal = new Mal(this,mpGame);
-		pNewMal->setMalLocation(mpGame->getHomeNode());
+		Mal* pNewMal = new Mal(this,mpSession);
+		pNewMal->setMalLocation(mpSession->getHomeNode());
 		mMalList.push_back(pNewMal);
 		theMalCountOnTheBoard++;
 	}
@@ -50,9 +43,9 @@ Node* Player::run(int Count, int MalID)
 		list<Mal*>::iterator  iter = mMalList.begin();
 		while (iter != mMalList.end())
 		{
-			if ((*iter)->mpMalLocation == mpGame->getReadyNode() || 
+			if ((*iter)->mpMalLocation == mpSession->getReadyNode() || 
 				(*iter)->mpMalLocation->getType() ==NODE_TYPE_OUT)
-				(*iter)->mpMalLocation = mpGame->getHomeNode();
+				(*iter)->mpMalLocation = mpSession->getHomeNode();
 			Node* pCurrentNode = (*iter)->mpMalLocation;
 		
 			if ((*iter)->mpMalLocation)
@@ -81,6 +74,7 @@ Node* Player::run(int Count, int MalID)
 				}
 				else if(Count==-1 && pCurrentNode->getType() != NODE_TYPE_OUT && pCurrentNode->getType() != NODE_TYPE_READY)
 				{
+					(*iter)->mpStartNode = pCurrentNode;
 					(*iter)->mpMalLocation = (*iter)->mpBackNode;
 					(*iter)->mpDestNode = (*iter)->mpBackNode;
 					(*iter)->mpBackNode = pCurrentNode;			
@@ -92,13 +86,18 @@ Node* Player::run(int Count, int MalID)
 					//(*iter)->mpBackNode = (*iter)->mpMalLocation;
 					//(*iter)->mpDestNode = pCurrentNode;
 				}
+				
+				
+
+
+				
 				LastMoveNode = (*iter)->mpMalLocation;
 			}
 			iter++;
 		}
 		
-		CString NyutStr[7] = { _T("»ªµµ"), _T("³«"), _T("µµ"), _T("°³"), _T("°É"), _T("À·, ÇÑ¹ø´õ"), _T("¸ð, ÇÑ¹ø´õ") };
-		DebugMessage.Format(_T("%s"), NyutStr[Count + 1]);
+		char *NyutStr[7] = { "Back do","Nack", "DO", "Ge", "girl", "luyt", "mo" };
+		//printf(DebugMessage, "%s", NyutStr[Count + 1]);
 		return LastMoveNode;
 	}
 		

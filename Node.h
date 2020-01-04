@@ -1,5 +1,12 @@
 #pragma once
 
+#include <assert.h>
+struct POINT
+{
+	int x;
+	int y;
+};
+
 
 enum NodeType
 {
@@ -14,7 +21,6 @@ enum NodeType
 
 class Mal;
 
-
 class Node
 {
 	int mUpdateNum;
@@ -23,28 +29,18 @@ class Node
 	Node* inputPort[2];
 	Node* outputPort[2];
 	Mal* mpCheckedMal;
-	CBrush mBlackNode;
 public: 
 	Node(enum NodeType type)
 	{
 		mType = type;
-		inputPort[0] = NULL;
-		inputPort[1] = NULL;
-		outputPort[0] = NULL;
-		outputPort[1] = NULL;
+		inputPort[0] = nullptr;
+		inputPort[1] = nullptr;
+		outputPort[0] = nullptr;
+		outputPort[1] = nullptr;
 		mLocation.x = 0;
 		mLocation.y = 0;
 		mUpdateNum = -1;
-		mpCheckedMal = nullptr;
-		if (mType == NODE_TYPE_BRANCH || mType == NODE_TYPE_CROSS)
-		{
-			mBlackNode.CreateSolidBrush(RGB(50, 100, 60));
-		}
-		else
-		{
-			mBlackNode.CreateSolidBrush(RGB(200, 200, 200));
-		}
-		
+		mpCheckedMal = nullptr;		
 	}
 	
 	
@@ -84,7 +80,7 @@ public:
 		else if (!inputPort[1])
 			inputPort[1] = pNode;
 		else
-			ASSERT(pNode);
+			assert(pNode);
 	}
 
 	Node* SetNextNode(Node* pNode)
@@ -94,7 +90,7 @@ public:
 		else if (!outputPort[1])
 			outputPort[1] = pNode;
 		else
-			ASSERT(outputPort[1]);
+			assert(outputPort[1]);
 
 		pNode->setInputNode(this);
 
@@ -103,7 +99,7 @@ public:
 
 	Node * passThrough(int Count, Node* pPreviousNode, Node* pStart)
 	{
-		Node* pNodeNext = NULL;
+		Node* pNodeNext = nullptr;
 		if (mType == NODE_TYPE_BRANCH)
 		{
 			if (this == pStart)
@@ -148,12 +144,11 @@ public:
 				if (outputPort[0])
 					pNodeNext = outputPort[0];
 				else
-					ASSERT(outputPort[0]);
+					assert(outputPort[0]);
 			}
 		}
 		else if (mType == NODE_TYPE_OUT)
 		{
-
 			return this;
 		}
 		else    // NODE_TYPE_SINGLE
@@ -178,6 +173,6 @@ public:
 
 	bool CheckOut(Mal* pMal);
 
-	void Draw(CDC* pDC, int UpdateNum);
+	//void Draw(CDC* pDC, int UpdateNum);
 
 };
