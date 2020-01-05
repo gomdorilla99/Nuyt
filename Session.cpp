@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include "Session.h"
 #include "math.h"
 #include "time.h"
